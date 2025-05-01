@@ -26,9 +26,9 @@ export default buildConfig({
   // --- CONFIGURACIÓN CORS ---
   // Asegúrate de que esta sección exista y contenga tu origen:
   cors: [
-    //'http://127.0.0.1:5501', // ¡Tu origen exacto!
-    // 'http://localhost:5501',
-    'https://front-silk-theta.vercel.app/', // Añadir localhost también es buena idea
+    'http://127.0.0.1:5501', // ¡Tu origen exacto!
+    'http://localhost:5501',
+    'https://front-silk-theta.vercel.app', // Añadir localhost también es buena idea
     // Puedes añadir más orígenes si los necesitas
   ],
   // --- FIN CONFIGURACIÓN CORS ---
