@@ -69,6 +69,9 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    orders: Order;
+    products: Product;
+    'manual-orders': ManualOrder;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +80,9 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    'manual-orders': ManualOrdersSelect<false> | ManualOrdersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -150,6 +156,98 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * Pedidos recibidos desde el sitio web.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone?: string | null;
+  orderedProducts: {
+    /**
+     * Nombre del producto al momento de la orden.
+     */
+    nameSnapshot: string;
+    /**
+     * Precio unitario al momento de la orden.
+     */
+    priceSnapshot: number;
+    quantity: number;
+    id?: string | null;
+  }[];
+  totalAmount: number;
+  status: 'recibido' | 'en_proceso' | 'entregado' | 'cancelado';
+  /**
+   * Notas privadas para seguimiento interno.
+   */
+  adminNotes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Productos disponibles en la tienda online.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: string;
+  name: string;
+  description?: string | null;
+  price: number;
+  /**
+   * Sube la imagen principal del producto.
+   */
+  productImage: string | Media;
+  stock?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Pedidos creados manualmente por administradores.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "manual-orders".
+ */
+export interface ManualOrder {
+  id: string;
+  /**
+   * Nombre completo del cliente.
+   */
+  customerName: string;
+  /**
+   * Email para contacto.
+   */
+  customerEmail: string;
+  /**
+   * Teléfono de contacto (opcional).
+   */
+  customerPhone?: string | null;
+  manualProducts: {
+    /**
+     * Describe el producto y cualquier detalle relevante (talla, color, SKU si aplica).
+     */
+    productDescription: string;
+    quantity: number;
+    unitPrice?: number | null;
+    id?: string | null;
+  }[];
+  /**
+   * Calcula e ingresa el monto total.
+   */
+  orderTotal?: number | null;
+  status: 'recibido' | 'en_proceso' | 'entregado';
+  /**
+   * Notas privadas para seguimiento interno.
+   */
+  adminNotes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -163,6 +261,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: string | Order;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: string | Product;
+      } | null)
+    | ({
+        relationTo: 'manual-orders';
+        value: string | ManualOrder;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -238,6 +348,63 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  customerName?: T;
+  customerEmail?: T;
+  customerPhone?: T;
+  orderedProducts?:
+    | T
+    | {
+        nameSnapshot?: T;
+        priceSnapshot?: T;
+        quantity?: T;
+        id?: T;
+      };
+  totalAmount?: T;
+  status?: T;
+  adminNotes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  price?: T;
+  productImage?: T;
+  stock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "manual-orders_select".
+ */
+export interface ManualOrdersSelect<T extends boolean = true> {
+  customerName?: T;
+  customerEmail?: T;
+  customerPhone?: T;
+  manualProducts?:
+    | T
+    | {
+        productDescription?: T;
+        quantity?: T;
+        unitPrice?: T;
+        id?: T;
+      };
+  orderTotal?: T;
+  status?: T;
+  adminNotes?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
