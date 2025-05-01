@@ -45,3 +45,6 @@ next-env.d.ts
 # Sin Dockerfile
 Dockerfile
 docker-compose.yml
+
+#carpeta de respaldo
+/src/collections/resp
