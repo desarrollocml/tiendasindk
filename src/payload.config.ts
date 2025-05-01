@@ -28,7 +28,7 @@ export default buildConfig({
   cors: [
     //'http://127.0.0.1:5501', // ¡Tu origen exacto!
     // 'http://localhost:5501',
-    'https://tiendasindk.onrender.com', // Añadir localhost también es buena idea
+    'https://front-silk-theta.vercel.app/', // Añadir localhost también es buena idea
     // Puedes añadir más orígenes si los necesitas
   ],
   // --- FIN CONFIGURACIÓN CORS ---
