@@ -23,6 +23,15 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  // --- CONFIGURACIÓN CORS ---
+  // Asegúrate de que esta sección exista y contenga tu origen:
+  cors: [
+    //'http://127.0.0.1:5501', // ¡Tu origen exacto!
+    // 'http://localhost:5501',
+    'https://tiendasindk.onrender.com', // Añadir localhost también es buena idea
+    // Puedes añadir más orígenes si los necesitas
+  ],
+  // --- FIN CONFIGURACIÓN CORS ---
   collections: [Users, Media, Orders, Products, ManualOrders],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
